@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText inputBalance, inputMarket;
     Spinner spinner;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,23 +39,41 @@ public class MainActivity extends AppCompatActivity {
         inputMarket = findViewById(R.id.editTextMarket);
         spinner = findViewById(R.id.spinner);
         initSpinner();
+        initButton();
 
-        addbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                int num1 = Integer.parseInt(inputBalance.getText().toString());
-                balanceNr.setText("" + num1);
-            }
-        });
 
-        buybtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("spinner", spinner.getSelectedItem().toString());
-            }
-        });
+
     }
+
+       private void initButton()  {
+            addbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int currentBalance = Integer.parseInt(balanceNr.getText().toString());
+                    int addBalance = Integer.valueOf(inputBalance.getText().toString());
+                    currentBalance+=addBalance;
+                    balanceNr.setText(String.valueOf(currentBalance));
+                }
+            });
+
+
+            buybtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("spinner", spinner.getSelectedItem().toString());
+                    int currentBalance = Integer.parseInt(balanceNr.getText().toString());
+                    int buyNum = Integer.valueOf(inputMarket.getText().toString());
+                    int totalSpend = Integer.valueOf(spendNrText.getText().toString());
+                    currentBalance=currentBalance - buyNum;
+                    totalSpend+=buyNum;
+                    balanceNr.setText(String.valueOf(currentBalance));
+                    spendNrText.setText(String.valueOf(totalSpend));
+                }
+            });
+        }
+
 
     public void initSpinner() {
         GroceriesType[] spinnerItems = GroceriesType.values();
