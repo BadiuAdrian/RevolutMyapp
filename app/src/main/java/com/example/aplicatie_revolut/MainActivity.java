@@ -42,37 +42,52 @@ public class MainActivity extends AppCompatActivity {
         initButton();
 
 
-
-
     }
 
-       private void initButton()  {
-            addbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
+    private void initButton() {
+        addbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!inputBalance.getText().toString().equals("")) {
                     int currentBalance = Integer.parseInt(balanceNr.getText().toString());
-                    int addBalance = Integer.valueOf(inputBalance.getText().toString());
-                    currentBalance+=addBalance;
+                    int addBalance = Integer.parseInt(inputBalance.getText().toString());
+                    currentBalance += addBalance;
                     balanceNr.setText(String.valueOf(currentBalance));
+
+
                 }
-            });
+            }
+        });
 
 
-            buybtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        buybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!inputMarket.getText().toString().equals("")) {
                     Log.d("spinner", spinner.getSelectedItem().toString());
                     int currentBalance = Integer.parseInt(balanceNr.getText().toString());
-                    int buyNum = Integer.valueOf(inputMarket.getText().toString());
-                    int totalSpend = Integer.valueOf(spendNrText.getText().toString());
-                    currentBalance=currentBalance - buyNum;
-                    totalSpend+=buyNum;
+                    int buyNum = Integer.parseInt(inputMarket.getText().toString());
+                    int totalSpend = Integer.parseInt(spendNrText.getText().toString());
+                    currentBalance = currentBalance - buyNum;
+                    totalSpend += buyNum;
                     balanceNr.setText(String.valueOf(currentBalance));
                     spendNrText.setText(String.valueOf(totalSpend));
+                    int foodNum = Integer.parseInt(foodNrText.getText().toString());
+                    int drinksNum = Integer.parseInt(drinksNrText.getText().toString());
+                    if (spinner.getSelectedItem().toString() == "Food") {
+                        foodNum += buyNum;
+                    } else {
+                        drinksNum += buyNum;
+                    }
+                    foodNrText.setText(String.valueOf(foodNum));
+                    drinksNrText.setText(String.valueOf(drinksNum));
+                    double vatNum;
+                    vatNum = (double) foodNum * 0.1 + (double) drinksNum * 0.2;
+                    vatNrText.setText(String.valueOf(vatNum));
                 }
-            });
-        }
+            }
+        });
+    }
 
 
     public void initSpinner() {
@@ -80,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<GroceriesType> adapter = new ArrayAdapter<GroceriesType>(this, android.R.layout.simple_spinner_item, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+
     }
 
 }
